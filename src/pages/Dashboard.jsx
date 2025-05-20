@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/SupaClient";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, PlusCircle, Trash2 } from "lucide-react";
