@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import ProfileMenu from "./mui/ProfileMenu";
 import { Moon, Sun } from "lucide-react"; // Tambahkan icon dari lucide-react
 import { useAuth } from "../utils/store/useAuth";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/Button";
 
 const Header = ({ className = "fixed" }) => {
   const [menuOpen, setMenuOpen] = useState(false);
