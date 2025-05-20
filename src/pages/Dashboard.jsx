@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/SupaClient";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft, PlusCircle, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 import LoadingScreen from "../components/LoadingScreen";
 import { Helmet } from "react-helmet-async";
+import Input from "../components/ui/Input";
 
 export default function Dashboard() {
   const [courses, setCourses] = useState([]);
