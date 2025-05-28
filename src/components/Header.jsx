@@ -1,29 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../utils/SupaClient";
-import Swal from "sweetalert2";
 import ProfileMenu from "./mui/ProfileMenu";
-import { Moon, Sun } from "lucide-react"; // Tambahkan icon dari lucide-react
+import { Moon, Sun } from "lucide-react";
 import { useAuth } from "../utils/store/useAuth";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 
 const Header = ({ className = "fixed" }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState(null);
-  const [darkMode, setDarkMode] = useState(false); // State dark mode
-  const navigate = useNavigate();
+  const [darkMode, setDarkMode] = useState(false);
   const { role } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setMenuOpen(false);
-      }
+      if (window.innerWidth >= 768) setMenuOpen(false);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -64,108 +58,40 @@ const Header = ({ className = "fixed" }) => {
     }
   };
 
+  const linkStyle = `block font-medium text-white hover:text-gray-200 transition`;
+
   return (
     <header
-      className={`${className} top-0 left-0 w-full z-50 transition-all duration-300 ${
-        scrolled ? "bg-purple-600 shadow-md" : "bg-transparent"
-      }`}
+      className={`${className} top-0 left-0 w-full z-50 transition-all duration-300 bg-purple-600 shadow-md`}
     >
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        {/* Logo */}
-        <div className="text-xl font-bold">
-          <Link to="/">
-            <h2
-              className={`${
-                scrolled ? "text-gray-200" : "text-black dark:text-white"
-              }`}
-            >
-              NextEdu
-            </h2>
-          </Link>
-        </div>
+      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        {/* Kiri: Logo */}
+        <Link to="/" className="text-xl font-bold text-white">
+          NextEdu
+        </Link>
 
-        {/* Hamburger Button */}
-        <button
-          className="md:hidden flex flex-col justify-center items-center w-8 h-8 relative group"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle Menu"
-        >
-          <div
-            className={`h-1 w-6 rounded transform transition-all duration-300 ${
-              scrolled ? "bg-gray-200" : "bg-white"
-            } ${menuOpen ? "rotate-45 translate-y-2" : ""}`}
-          ></div>
-          <div
-            className={`h-1 w-6 rounded my-1 transition-all duration-300 ${
-              scrolled ? "bg-gray-200" : "bg-white"
-            } ${menuOpen ? "opacity-0" : "opacity-100"}`}
-          ></div>
-          <div
-            className={`h-1 w-6 rounded transform transition-all duration-300 ${
-              scrolled ? "bg-gray-200" : "bg-white"
-            } ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}
-          ></div>
-        </button>
+        {/* Kanan: Nav + DarkMode + User (desktop) */}
+        <div className="hidden md:flex items-center gap-6">
+          {/* Nav */}
+          <nav className="flex gap-6">
+            <Link to="/" className={linkStyle}>
+              Home
+            </Link>
+            <Link to="/courses" className={linkStyle}>
+              Courses
+            </Link>
+            <Link to="/about" className={linkStyle}>
+              About
+            </Link>
+            <Link to="/contact" className={linkStyle}>
+              Contact
+            </Link>
+          </nav>
 
-        {/* Menu */}
-        <nav
-          className={`${menuOpen ? "block" : "hidden"} absolute md:relative ${
-            scrolled ? "bg-purple-600 md:bg-transparent" : "bg-transparent"
-          } top-16 md:top-auto left-0 w-full md:w-auto md:flex items-center space-y-4 md:space-y-0 md:space-x-6 px-4 md:px-0 z-50`}
-        >
-          <Link
-            to="/"
-            className={`block font-medium transition ${
-              scrolled
-                ? "text-gray-200 hover:text-white"
-                : "text-black hover:text-gray-400 dark:text-white"
-            }`}
-            onClick={() => setMenuOpen(false)}
-          >
-            Home
-          </Link>
-          <Link
-            to="/courses"
-            className={`block font-medium transition ${
-              scrolled
-                ? "text-gray-200 hover:text-white"
-                : "text-black hover:text-gray-400 dark:text-white"
-            }`}
-            onClick={() => setMenuOpen(false)}
-          >
-            Courses
-          </Link>
-          <Link
-            to="/about"
-            className={`block font-medium transition ${
-              scrolled
-                ? "text-gray-200 hover:text-white"
-                : "text-black hover:text-gray-400 dark:text-white"
-            }`}
-            onClick={() => setMenuOpen(false)}
-          >
-            About
-          </Link>
-          <Link
-            to="/contact"
-            className={`block font-medium transition ${
-              scrolled
-                ? "text-gray-200 hover:text-white"
-                : "text-black hover:text-gray-400 dark:text-white"
-            }`}
-            onClick={() => setMenuOpen(false)}
-          >
-            Contact
-          </Link>
-
-          {/* Tombol Dark Mode (desktop) */}
+          {/* DarkMode Button */}
           <button
             onClick={toggleDarkMode}
-            className={`hidden md:flex items-center justify-center w-9 h-9 rounded-full transition ${
-              scrolled
-                ? "bg-gray-100 text-purple-700"
-                : "bg-white text-purple-700"
-            } hover:bg-gray-200`}
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-white text-purple-700 hover:bg-gray-100 transition"
           >
             {darkMode ? (
               <Sun className="w-5 h-5" />
@@ -174,29 +100,131 @@ const Header = ({ className = "fixed" }) => {
             )}
           </button>
 
-          {/* Login / Profile */}
+          {/* User */}
           {user ? (
-            <ProfileMenu setUser={setUser} setMenuOpen={setMenuOpen} />
+            <>
+              <ProfileMenu setUser={setUser} setMenuOpen={setMenuOpen} />
+              {role === "admin" && (
+                <Button
+                  onClick={() => navigate("/dashboard")}
+                  className="text-white hover:bg-purple-700"
+                  variant="ghost"
+                >
+                  Dashboard
+                </Button>
+              )}
+            </>
           ) : (
             <Link
               to="/login"
-              className={`block py-2 px-4 rounded-full font-medium transition duration-300 ${
-                scrolled
-                  ? "bg-white text-purple-700 hover:bg-gray-200 hover:text-purple-900"
-                  : "bg-purple-700 text-white hover:bg-purple-500"
-              } w-full md:w-auto text-center`}
-              onClick={() => setMenuOpen(false)}
+              className="bg-white text-purple-700 py-2 px-4 rounded-full font-medium hover:bg-gray-200 transition"
             >
               Login
             </Link>
           )}
-          {role === "admin" && (
-            <Button onClick={() => navigate("/dashboard")} className="ml-4">
-              Dashboard
-            </Button>
-          )}
-        </nav>
+        </div>
+
+        {/* Hamburger Mobile */}
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="md:hidden flex flex-col justify-center items-center w-8 h-8 z-50"
+        >
+          <span
+            className={`h-1 w-6 bg-white rounded transition-all duration-300 ${
+              menuOpen ? "rotate-45 translate-y-2" : ""
+            }`}
+          ></span>
+          <span
+            className={`h-1 w-6 bg-white rounded my-1 transition-all duration-300 ${
+              menuOpen ? "opacity-0" : "opacity-100"
+            }`}
+          ></span>
+          <span
+            className={`h-1 w-6 bg-white rounded transition-all duration-300 ${
+              menuOpen ? "-rotate-45 -translate-y-2" : ""
+            }`}
+          ></span>
+        </button>
       </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-purple-600 px-4 pb-4 pt-2 space-y-3">
+          <nav className="flex flex-col space-y-3">
+            <Link
+              to="/"
+              className={linkStyle}
+              onClick={() => setMenuOpen(false)}
+            >
+              Home
+            </Link>
+            <Link
+              to="/courses"
+              className={linkStyle}
+              onClick={() => setMenuOpen(false)}
+            >
+              Courses
+            </Link>
+            <Link
+              to="/about"
+              className={linkStyle}
+              onClick={() => setMenuOpen(false)}
+            >
+              About
+            </Link>
+            <Link
+              to="/contact"
+              className={linkStyle}
+              onClick={() => setMenuOpen(false)}
+            >
+              Contact
+            </Link>
+          </nav>
+
+          <div className="flex justify-between items-center mt-4">
+            {/* Darkmode */}
+            <button
+              onClick={toggleDarkMode}
+              className="w-9 h-9 flex items-center justify-center rounded-full bg-white text-purple-700 hover:bg-gray-100 transition"
+            >
+              {darkMode ? (
+                <Sun className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )}
+            </button>
+
+            {/* User (Mobile) */}
+            <div className="flex items-center gap-2">
+              {user ? (
+                <>
+                  <ProfileMenu setUser={setUser} setMenuOpen={setMenuOpen} />
+                  {role === "admin" && (
+                    <Button
+                      onClick={() => {
+                        navigate("/dashboard");
+                        setMenuOpen(false);
+                      }}
+                      className="bg-black text-black hover:bg-white hover:text-black"
+                      size="sm"
+                    >
+                      Dashboard
+                    </Button>
+                  )}
+                </>
+              ) : (
+                <Link
+                  to="/login"
+                  className="bg-white text-purple-700 py-1.5 px-3 rounded-full font-medium text-sm hover:bg-gray-200 transition"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  Login
+                </Link>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 };

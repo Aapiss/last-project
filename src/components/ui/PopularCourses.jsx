@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../utils/SupaClient";
+import { Link } from "react-router-dom";
 
 const PopularCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -54,9 +55,12 @@ const PopularCourses = () => {
                   <p className="text-gray-600 dark:text-gray-300">
                     {course.description}
                   </p>
-                  <button className="mt-4 px-4 py-2 bg-purple-600 text-white rounded-lg shadow-md hover:bg-purple-700 hover:shadow-lg transition dark:bg-purple-500 dark:hover:bg-purple-600">
+                  <Link
+                    to={`/courses/${course.id}`}
+                    className="inline-block mt-4 px-4 py-2 bg-purple-600 text-white rounded-lg shadow-md hover:bg-purple-700 hover:shadow-lg transition dark:bg-purple-500 dark:hover:bg-purple-600"
+                  >
                     Learn More
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))}

@@ -28,11 +28,12 @@ export default function ProfileMenu({ setUser, setMenuOpen }) {
   const [avatarUrl, setAvatarUrl] = React.useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
-  const { logout, user, username } = useAuth(); // pastikan `username` tersedia
+  const { logout, user, username } = useAuth();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -87,6 +88,7 @@ export default function ProfileMenu({ setUser, setMenuOpen }) {
           if (urlError) {
             console.error("Error getting public URL:", urlError.message);
           } else {
+            console.log("Avatar URL:", imageData.publicUrl); // Debug
             setAvatarUrl(imageData.publicUrl);
           }
         }
@@ -134,10 +136,11 @@ export default function ProfileMenu({ setUser, setMenuOpen }) {
           }}
         >
           <Avatar
-            src={avatarUrl}
+            src={avatarUrl || undefined}
             sx={{ width: 32, height: 32, mr: 1 }}
-            alt="Profile"
-          />
+          >
+            {!avatarUrl && (username?.charAt(0).toUpperCase() || "U")}
+          </Avatar>
           Profile
         </MenuItem>
         <Divider />

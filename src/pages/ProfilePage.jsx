@@ -170,11 +170,7 @@ const ProfilePage = () => {
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-10 max-w-3xl w-full transition-all duration-300">
           <div className="flex flex-col items-center text-center mb-8">
             <img
-              src={
-                previewUrl ||
-                profile?.avatar_url ||
-                "https://i.pravatar.cc/150?img=32"
-              }
+              src={previewUrl || profile?.avatar_url}
               alt="Avatar"
               className="w-32 h-32 rounded-full shadow-md mb-4 object-cover border-4 border-purple-300"
             />

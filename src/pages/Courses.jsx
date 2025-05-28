@@ -10,6 +10,7 @@ const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [categories, setCategories] = useState(["All"]);
+  const [searchQuery, setSearchQuery] = useState("");
   const scrollRef = useRef(null);
 
   // Fetch courses and categories
@@ -30,10 +31,13 @@ const Courses = () => {
     fetchCourses();
   }, []);
 
-  const filteredCourses =
-    selectedCategory === "All"
-      ? courses
-      : courses.filter((course) => course.category === selectedCategory);
+  const filteredCourses = courses
+    .filter((course) =>
+      selectedCategory === "All" ? true : course.category === selectedCategory
+    )
+    .filter((course) =>
+      course.courses_name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
   // Handle horizontal scroll using wheel
   useEffect(() => {
@@ -80,6 +84,7 @@ const Courses = () => {
           content="kursus online, belajar online, nextedu, belajar web, belajar coding, kelas online"
         />
       </Helmet>
+
       <Header className="sticky" />
       <section className="bg-gray-100 min-h-screen p-8 dark:bg-gray-900">
         <div className="container mx-auto max-w-6xl">
@@ -95,6 +100,17 @@ const Courses = () => {
             Learn new skills and boost your career with our high-quality
             courses.
           </p>
+
+          {/* Input Search */}
+          <div className="flex justify-center mb-6">
+            <input
+              type="text"
+              placeholder="Search courses..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full max-w-md px-4 py-2 border border-gray-300 bg-white rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600 dark:bg-gray-800 dark:text-white dark:border-gray-600"
+            />
+          </div>
 
           {/* Filter Kategori dengan Scroll Horizontal */}
           <div className="relative mb-8 max-w-3xl mx-auto">

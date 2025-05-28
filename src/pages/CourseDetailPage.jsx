@@ -196,7 +196,7 @@ const CourseDetailPage = () => {
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between mb-6">
             <button
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/courses")}
               className="flex items-center text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300 transition"
             >
               <ArrowLeft className="w-5 h-5 mr-1" />
@@ -274,6 +274,10 @@ const CourseDetailPage = () => {
                       />
 
                       <div>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          Created on:{" "}
+                          {new Date(course.created_at).toLocaleDateString()}
+                        </p>
                         <p className="font-semibold text-purple-700 dark:text-purple-300">
                           {c.profiles?.username || "Anonymous"}
                         </p>
